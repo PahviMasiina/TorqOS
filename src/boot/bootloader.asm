@@ -20,7 +20,6 @@ mov si, dap ; move dap to si
 int 0x13 ; perform bios disk services
 
 jmp 0x7e00 ; jump to the kernel
-;jmp main
 
 onerror:
 
