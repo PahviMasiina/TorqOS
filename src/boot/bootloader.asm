@@ -1,5 +1,5 @@
 [BITS 16]
-[ORG 0x7e00]
+[ORG 0x7c00]
 cli ; no interrupts anymore
 
 mov ah, 0x0e ; func = display char
@@ -19,21 +19,8 @@ mov dl, 0x80 ; 1st hard drive
 mov si, dap ; move dap to si
 int 0x13 ; perform bios disk services
 
-mov es, 0x00
-mov bp, 0x7e0
-mov bp, ax
-xor bp, bp ; set 0 
-mov ah, 0x13 ; func = display string
-mov al, 0x00
-mov bh, 0x00
-mov bl, 0x01
-mov cx, 0x200 ; 512
-mov dh, 0x00
-mov dl, 0x00
-int 0x10 ; perform bios video service
-
-;jmp 0x00007e00 ; jump to the kernel
-jmp main
+jmp 0x7e00 ; jump to the kernel
+;jmp main
 
 onerror:
 
@@ -50,7 +37,7 @@ align 4
 dap:
     .dapSize db 10h ; dap size (16 bytes)
     .dapZero db 0 ; dap reserved
-    .dapSectors dw 0x7f ; dap copied segments (127 pcs)
+    .dapSectors dw 0x7f ; dap copied 127 segments
     .dapOffset dw 0 ; zero offset?
     .dapSegment dw 0x7e0 ; dap start memory address (right after bootloader)
     .dapStartLow dd 0x00000001 ; dap "skipped" sectors, pt1
@@ -61,11 +48,11 @@ db 0x00 ; disk signature = 1 (4 byte)
 db 0x00
 db 0x00
 db 0x01
-db 0x5A ; reserved?, set to read only
-db 0x5A
+db 0x5a ; reserved?, set to read only
+db 0x5a
 times 16 db 0 ; bootsector 1
 times 16 db 0 ; bootsector 2
 times 16 db 0 ; bootsector 3
 times 16 db 0 ; bootsector 4
 db 0x55 ; adds "valid bootsector" identifiers
-db 0xAA
+db 0xaa
