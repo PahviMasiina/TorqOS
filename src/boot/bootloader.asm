@@ -11,8 +11,8 @@ mov bx, 0x55aa
 mov dl, 0x80 ; 1st hard drive
 int 0x13 ; perform bios extended disk services check
 
-cmp ah, 0 ; compare error code register to zero
-je onerror ; jump if error to onerror
+cmp ah, 0x00 ; compare error code register to zero
+je onError ; jump if error to onerror
 
 mov ah, 0x42 ; read sectors
 mov dl, 0x80 ; 1st hard drive
@@ -21,7 +21,7 @@ int 0x13 ; perform bios disk services
 
 jmp 0x7e00 ; jump to the kernel
 
-onerror:
+onError:
 
 	mov ah, 0x0e ; func = display char
 	mov al, 'e' ; char e (from word error)
