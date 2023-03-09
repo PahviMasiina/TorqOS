@@ -74,6 +74,7 @@ gdt:
 	;.taskStateLimit dd 0x003fffff ; maybe bit too small
 	;.taskStateAccessByte db 0x89 ; 
     ;.taskStateFlags db 0x0c
+gdtEnd db 0
 
 times 440-($-$$) db 0 ; fills the rest of the bootloader with zeroes, MUST BE IN THE SAME SEGMENT AS THE CODE, OTHERWISE WONT WORK
 db 0x00 ; disk signature = 1 (4 byte)
